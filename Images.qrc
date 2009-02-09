@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/image" >
+        <file alias="trou" >ressources/trou.png</file>
+        <file alias="plateau" >ressources/Plateau.png</file>
+        <file alias="boutonB" >ressources/boutonblanc2.png</file>
+        <file alias="boutonN" >ressources/boutonnoir2.png</file>
+        <file alias="metal" >ressources/metal.png</file>
+        <file alias="BoutonSB" >ressources/boutonsemiblanc.png</file>
+        <file alias="BoutonSM" >ressources/boutonseminoir.png</file>
+        <file alias="vide" >ressources/vide.png</file>
+        <file alias="FBAH" >ressources/FBAH.png</file>
+        <file alias="FBH" >ressources/FBH.png</file>
+        <file alias="FNAH" >ressources/FNAH.png</file>
+        <file alias="FNH" >ressources/FNH.png</file>
+        <file alias="FVAH" >ressources/FVAH.png</file>
+        <file alias="FVH" >ressources/FVH.png</file>
+    </qresource>
+</RCC>
