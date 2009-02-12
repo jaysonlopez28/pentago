@@ -1,6 +1,7 @@
 #ifndef IASTATISTIQUE_H
 #define IASTATISTIQUE_H
 #include <list>
+#include <iostream>
 #include "joueur.h"
 #include "jeu.h"
 /*
