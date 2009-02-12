@@ -4,6 +4,7 @@ IAStatistique::IAStatistique(string nom,int nbCoupAvance) : Joueur(nom){
     std::cout<<"lapin"<<std::endl;
     ss=3;
     p=2;
+    lgligne = 5;
 }
 bool IAStatistique::placePion(){
     coul=_jeu->getEtat()->getCouleurJoueur(((Joueur*)this));
@@ -80,23 +81,38 @@ Coup IAStatistique::chercheMeilleureCoup(int nbCoupAvance,Couleur coulCourante,P
 }
 
 int IAStatistique::chercheReccurent(int nbCoupAvance,Couleur coulCourante,Plateau plat){
+     int res = 0;
      /*
      *1 : Il y a 2 cas possible, soit nbCoupAvance == 0 , soit nbCoupAvance > 0
      *si == 0 : On tire avec le plateau courant N partis, N est definis par le #define du main "N"
      *si >0 : on place tout les coup possible dans la liste "coupsPossibles" puis on en pop 1,
      *on met le plateau a jour, puis on appel recursivment la fonction
-
+    */
     if(nbCoupAvance==0){
-        int res = 0;
         for(int i = 0 ; i < N ; i++){
-            res +=joueAlea(plat);
+            res +=joueAlea(plat,coul);
         }
+    }
+    return (int)(((float)res)/((float)N));
+}
 
+int IAStatistique::joueAlea(Plateau plat,Couleur coulCourante){
+    /*ToDo :
+     *Crée une instance de jeu avec l'etat : etat
+     *jouer la partie jusqu'a la fin
+     *Renvoyer :
+        *egalité : 0
+        *victoire de coulCourante : valeur positive
+        *victoire de !coulCourante : valeur negative
+      */
 
-    }*/
+     EtatReel etat = EtatReel(p, ss, lgligne);
+     IARandom* j = new IARandom("IA random1");
+     etat.ajoutJoueur(j, coulCourante);
+     etat.ajoutJoueur(new IARandom("IA random2"), (Couleur)((coulCourante%2)+1));
+     etat.setJoueurCourant(j);
 
 
     return 0;
 }
-
 
