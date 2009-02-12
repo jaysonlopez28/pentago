@@ -8,9 +8,11 @@ Selec::Selec(int* _tp , int * _tssp , int * _l,int* _j1,int* _j2 ,QWidget *paren
 {
     m_ui->setupUi(this);
     m_ui->j1->addItem(QString("Humain"),QVariant(0));
-    m_ui->j1->addItem(QString("IA"),QVariant(1));
+    m_ui->j1->addItem(QString("IA_Random"),QVariant(1));
+    m_ui->j1->addItem(QString("IA_Statistique"),QVariant(2));
     m_ui->j2->addItem(QString("Humain"),QVariant(0));
-    m_ui->j2->addItem(QString("IA"),QVariant(1));
+    m_ui->j2->addItem(QString("IA_Random"),QVariant(1));
+    m_ui->j2->addItem(QString("IA_Statistique"),QVariant(2));
     connect(m_ui->okButton, SIGNAL(clicked()), this, SLOT(accept()));
     connect(m_ui->tp, SIGNAL(valueChanged(int)), this, SLOT(modifMaxLigne(int)));
     connect(m_ui->tssp, SIGNAL(valueChanged(int)), this, SLOT(modifMaxLigne(int)));

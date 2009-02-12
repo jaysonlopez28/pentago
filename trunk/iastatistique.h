@@ -1,6 +1,6 @@
 #ifndef IASTATISTIQUE_H
 #define IASTATISTIQUE_H
-
+#include <list>
 #include "joueur.h"
 #include "jeu.h"
 /*
@@ -21,17 +21,20 @@ struct Rotation
         };
 */
 struct Coup {
-    Placement coup;
-    Rotation rotation;
+    Etat::Placement coup;
+    Etat::Rotation rotation;
 };
 
 class IAStatistique : public Joueur
 {
 public:
-    IAStatistique();
+    IAStatistique(string nom,int nbCoupAvance);
     bool placePion();
     bool tournePlateau();
+    Coup chercheMeilleureCoup(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
+    int chercheReccurent(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
 private :
+    int ss,p;
     //nbCoupAvance stock le nombre de coup que l'ia doit calculer entierement
     int nbCoupAvance;
     Coup final;

@@ -1,11 +1,17 @@
 #include "iastatistique.h"
 
-IAStatistique::IAStatistique(int nbCoupAvance){
-    coul=_jeu->getEtat()->getCouleurJoueur(this);
+IAStatistique::IAStatistique(string nom,int nbCoupAvance) : Joueur(nom){
+    coul=_jeu->getEtat()->getCouleurJoueur(((Joueur*)this));
+    ss=3;
+    p=2;
 }
 bool IAStatistique::placePion(){
-    chercheMeilleureCoup(nbCoupAvance);
-
+    //recuperation du plateau du jeu en cour dans plat :
+    Plateau plat = Plateau(p,ss);
+    //Appel de la fonction pour chercher le coup :
+    final = chercheMeilleureCoup(nbCoupAvance,coul,plat);
+    //On joue le coup
+    _jeu->joueCase(final.coup.plateauX,final.coup.plateauY,final.coup.sousPlateauX,final.coup.sousPlateauY);
     return false;
 }
 bool IAStatistique::tournePlateau(){
@@ -13,5 +19,55 @@ bool IAStatistique::tournePlateau(){
     return false;
 }
 
-Coup AIStatistique::chercheMeilleurCoup(int nbCoupAvance){
+Coup IAStatistique::chercheMeilleureCoup(int nbCoupAvance,Couleur coulCourante,Plateau plat){
+    /*
+     *1 : Il y a 2 cas possible, soit nbCoupAvance == 0 , soit nbCoupAvance > 0
+     *si == 0 : On tire avec le plateau courant N partis, N est definis par le #define du main "N"
+     *si >0 : on place tout les coup possible dans la liste "coupsPossibles" puis on en pop 1,
+     *on met le plateau a jour, puis on appel recursivment la fonction
+
+    if(nbCoupAvance==0){
+        int res = 0;
+        for(int i = 0 ; i < N ; i++){
+            res +=joueAlea(plat);
+        }
+
+
+    }*/
+
+
+    // 1 : on push tt les coups valident dans une liste
+    list<Coup> coupsPossibles;
+    for(int ssx = 0 ; ssx < p ; ssx++ ){
+        for(int ssy = 0 ; ssy < p ; ssy++ ){
+            for(int x = 0 ; x < ssp ; x++ ){
+                for(int y = 0 ; y < ssp ; y++ ){
+
+                }
+            }
+        }
+    }
+    list<std::pair<Coup,int> > valeur;
+    // 2 : on appel chercheRecurrent sur chaques plateaux mit a jour avec un coup de la liste à chaque fois
+    while(!coupsPossibles.empty()){
+        Coup cc = coupsPossibles.front();
+        coupsPossibles.pop_front();
+        plat.setCouleur(cc.coup.plateauX,cc.coup.plateauY,cc.coup.sousPlateauX,cc.coup.sousPlateauY,cc.coup.couleur);
+        valeur.push_back(std::pair<Coup,int>(cc,chercheReccurent(nbCoupAvance,(Couleur)((coulCourante%2)+1),plat)));
+        plat.setCouleur(cc.coup.plateauX,cc.coup.plateauY,cc.coup.sousPlateauX,cc.coup.sousPlateauY,Vide);
+    }
+    int max = -9000;
+    // 3 : on parcours valeur pour savoir quel coup a le meilleur score, et on le retourne.
+    //for(list<std::pair<Coup,int>>::iterator it = valeur.begin() ; it != valeur.end() ; it++)
+    for(list<std::pair<Coup,int> >::iterator it = valeur.begin() ; it != valeur.end() ; it++ ){
+        if(it->second>max)final = it->first;
+    }
+    return final;
+
 }
+
+int IAStatistique::chercheReccurent(int nbCoupAvance,Couleur coulCourante,Plateau plat){
+    return 0;
+}
+
+

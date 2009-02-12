@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "humain.h"
 #include "iarandom.h"
 #include "ihmqt.h"
+#include "iastatistique.h"
 #include "ihm.h"
 #include "etat.h"
 #include "selec.h"
@@ -44,9 +45,11 @@ int main(int argc, char *argv[])
     a.exec();
     s->updateInfo();
     if(j1==0)joueurs.push_back(new Humain("Humain 1"));
-    else joueurs.push_back(new IARandom("IA random1"));
+    else if(j1==1)joueurs.push_back(new IARandom("IA random1"));
+    else joueurs.push_back(new IAStatistique("IA statistique 1",1));
     if(j2==0)joueurs.push_back(new Humain("Humain 2"));
-    else joueurs.push_back(new IARandom("IA random2"));
+    else if(j2==1)joueurs.push_back(new IARandom("IA random2"));
+    else joueurs.push_back(new IAStatistique("IA statistique 2",1));
     Jeu* jeu=new Jeu(tailleplateau,taillesousplateau,ligne,joueurs);
     IhmQT* ihm = new IhmQT(jeu);
     ihm->show();
