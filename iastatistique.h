@@ -3,7 +3,10 @@
 #include <list>
 #include <iostream>
 #include "joueur.h"
+#include "iarandom.h"
 #include "jeu.h"
+
+#define N 10
 /*
 struct Rotation
     {
@@ -32,10 +35,12 @@ public:
     IAStatistique(string nom,int nbCoupAvance);
     bool placePion();
     bool tournePlateau();
+private :
+    int joueAlea(Plateau plat,Couleur coul);
     Coup chercheMeilleureCoup(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
     int chercheReccurent(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
-private :
-    int ss,p;
+
+    int ss,p,lgligne;
     //nbCoupAvance stock le nombre de coup que l'ia doit calculer entierement
     int nbCoupAvance;
     Coup final;

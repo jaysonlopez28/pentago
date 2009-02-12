@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
     s->updateInfo();
     if(j1==0)joueurs.push_back(new Humain("Humain 1"));
     else if(j1==1)joueurs.push_back(new IARandom("IA random1"));
-    else joueurs.push_back(new IAStatistique("IA statistique 1",1));
+    else joueurs.push_back(new IAStatistique("IA statistique 1",0));
     if(j2==0)joueurs.push_back(new Humain("Humain 2"));
     else if(j2==1)joueurs.push_back(new IARandom("IA random2"));
-    else joueurs.push_back(new IAStatistique("IA statistique 2",1));
+    else joueurs.push_back(new IAStatistique("IA statistique 2",0));
     Jeu* jeu=new Jeu(tailleplateau,taillesousplateau,ligne,joueurs);
     IhmQT* ihm = new IhmQT(jeu);
     ihm->show();
