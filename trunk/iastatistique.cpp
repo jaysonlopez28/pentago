@@ -1,7 +1,8 @@
 #include "iastatistique.h"
 
-IAStatistique::IAStatistique(string nom,int nbCoupAvance) : Joueur(nom){
+IAStatistique::IAStatistique(string nom,int _nbCoupAvance) : Joueur(nom){
     std::cout<<"lapin"<<std::endl;
+    nbCoupAvance = _nbCoupAvance;
     ss=3;
     p=2;
     lgligne = 5;
@@ -19,7 +20,6 @@ bool IAStatistique::placePion(){
             }
         }
     }
-
     //Appel de la fonction pour chercher le coup :
     final = chercheMeilleureCoup(nbCoupAvance,coul,plat);
     //On joue le coup
@@ -107,12 +107,32 @@ int IAStatistique::joueAlea(Plateau plat,Couleur coulCourante){
       */
 
      EtatReel etat = EtatReel(p, ss, lgligne);
-     IARandom* j = new IARandom("IA random1");
-     etat.ajoutJoueur(j, coulCourante);
-     etat.ajoutJoueur(new IARandom("IA random2"), (Couleur)((coulCourante%2)+1));
-     etat.setJoueurCourant(j);
+     IARandom* j1 = new IARandom("IA random1");
+     IARandom* j2 = new IARandom("IA random2");
+     etat.ajoutJoueur(j1, coulCourante);
+     etat.ajoutJoueur(j2, (Couleur)((coulCourante%2)+1));
+     etat.setJoueurCourant(j1);
+     //On joue la partie :
+     int c;
+     for(int i = 0 ; i < 100000 ; i++){
+        c=i;
+     }
+     //A la fin de la partie :
+     if(etat.getProchainMouvement() == Etat::Egalite)return 0;
+     if(etat.getProchainMouvement() == Etat::Termine){
+        if(etat.getCouleurJoueur(etat.getJoueurVictorieux())==coulCourante){
+            return 100;
+        }
+        else if(etat.getCouleurJoueur(etat.getJoueurVictorieux())!=coulCourante){
+            return -100;
+        }
+        else return 0;
+     }
 
 
-    return 0;
+     delete j1;
+     delete j2;
+
+    return c;
 }
 
