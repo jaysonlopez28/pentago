@@ -72,11 +72,20 @@ IhmQT::~IhmQT()
 void IhmQT::miseAJour(){
     Etat* EC=_jeu->getEtat();
     if(EC->getProchainMouvement()!=Etat::Termine && EC->getProchainMouvement()!=Etat::Egalite){
+        if(EC->getProchainMouvement()==Etat::Tourner){
     ui->label->setText(QApplication::translate("IhmQTClass", ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Berlin Sans FB Demi'; font-size:11pt; font-weight:72; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"+(EC->getJoueurCourant()->getNom())+"</p></body></html>").c_str(), 0, QApplication::UnicodeUTF8));
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"+(EC->getJoueurCourant()->getNom())+" Tourner </p></body></html>").c_str(), 0, QApplication::UnicodeUTF8));
+    }    else{
+        ui->label->setText(QApplication::translate("IhmQTClass", ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Berlin Sans FB Demi'; font-size:11pt; font-weight:72; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"+(EC->getJoueurCourant()->getNom())+" Poser </p></body></html>").c_str(), 0, QApplication::UnicodeUTF8));
+
+    }
     }else if(EC->getProchainMouvement()==Etat::Termine) {
 ui->label->setText(QApplication::translate("IhmQTClass", ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
