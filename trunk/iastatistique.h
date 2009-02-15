@@ -6,7 +6,7 @@
 #include "iarandom.h"
 #include "jeu.h"
 
-#define N 10
+#define N 1
 /*
 struct Rotation
     {
@@ -36,9 +36,9 @@ public:
     bool placePion();
     bool tournePlateau();
 private :
-    int joueAlea(Plateau plat,Couleur coul);
-    Coup chercheMeilleureCoup(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
-    int chercheReccurent(int nbCoupAvance=1,Couleur coulCourante=Noir, Plateau plat=NULL);
+    int joueAlea(EtatReel etat,Couleur coul);
+    Coup chercheMeilleureCoup(int nbCoupAvance=1,Couleur coulCourante=Noir);
+    int chercheReccurent(int nbCoupAvance=1,Couleur coulCourante=Noir,EtatReel etat = NULL);
 
     int ss,p,lgligne;
     //nbCoupAvance stock le nombre de coup que l'ia doit calculer entierement
