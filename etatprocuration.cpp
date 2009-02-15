@@ -73,10 +73,15 @@ int EtatProcuration::getTailleSousPlateau()
 
 int EtatProcuration::getLongueurLigne()
 {
-	return _etat->getLongueurLigne();
+    return _etat->getLongueurLigne();
 }
 
 int EtatProcuration::getNbPionsPoses()
 {
-	return _etat->getNbPionsPoses();
+    return _etat->getNbPionsPoses();
+}
+
+list<Joueur *> EtatProcuration::getJoueurs()
+{
+    return _etat->getJoueurs();
 }

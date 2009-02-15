@@ -23,7 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "couleur.h"
 #include "sousplateau.h"
 
+#include <list>
+
 class Joueur;
+
+using std::list;
 
 class Etat // classe abstraite
 {
@@ -59,11 +63,17 @@ public:
     virtual Mouvement getProchainMouvement() = 0;
     virtual Joueur * getJoueurVictorieux() = 0;
     virtual Rotation getDerniereRotation() = 0;
-	virtual Placement getDernierPlacement() = 0;
+    virtual Placement getDernierPlacement() = 0;
     virtual int getTaillePlateau() = 0;
     virtual int getTailleSousPlateau() = 0;
-	virtual int getLongueurLigne() = 0;
-	virtual int getNbPionsPoses() = 0;
+    virtual int getLongueurLigne() = 0;
+    virtual int getNbPionsPoses() = 0;
+
+    friend class EtatReel;
+    friend class EtatProcuration;
+
+protected:
+    virtual list<Joueur *> getJoueurs() = 0;
 };
 
 #endif // ETAT_H

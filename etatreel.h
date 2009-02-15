@@ -36,6 +36,7 @@ class EtatReel : public Etat
 {
 public:
     EtatReel(int taillePlateau, int tailleSousPlateaux, int longueurLigne);
+    EtatReel(Etat & etat);
     virtual ~EtatReel();
 
     void setCouleur(int plateauX, int plateauY, int sousPlateauX, int sousPlateauY, Couleur couleur);
@@ -55,17 +56,22 @@ public:
     Mouvement getProchainMouvement();
 
     Rotation getDerniereRotation();
-	Placement getDernierPlacement();
+    Placement getDernierPlacement();
 
     int getTaillePlateau();
     int getTailleSousPlateau();
-	int getLongueurLigne();
-	int getNbPionsPoses();
+    int getLongueurLigne();
+    int getNbPionsPoses();
+
+    friend class EtatProcuration;
+
+protected:
+    list<Joueur *> getJoueurs();
 
 private:
     Plateau _plateau;
     int _taillePlateau, _tailleSousPlateaux;
-	int _longueurLigne;
+    int _longueurLigne;
     list<Joueur*> _joueurs;
     map<Joueur*,Couleur> _couleurs;
     Joueur * _joueurCourant;
@@ -73,7 +79,7 @@ private:
     Joueur * _joueurVictorieux;
     Mouvement _prochainMouvement;
     Rotation _derniereRotation;
-	Placement _dernierPlacement;
+    Placement _dernierPlacement;
 
     Couleur verifierVictoire();
 };
