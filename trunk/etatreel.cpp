@@ -39,21 +39,46 @@ EtatReel::EtatReel(int taillePlateau, int tailleSousPlateaux, int longueurLigne)
                 _longueurLigne = _taillePlateau * _tailleSousPlateaux - 1;
 }
 
+EtatReel::EtatReel(Etat & etat) : _plateau(2,3)
+{
+    _taillePlateau = etat.getTaillePlateau();
+    _tailleSousPlateaux = etat.getTailleSousPlateau();
+    _plateau = Plateau(_taillePlateau, _tailleSousPlateaux);
+    for(int i = 0 ; i < _taillePlateau ; i++) {
+        for(int j = 0 ; j < _taillePlateau ; j++) {
+            for(int k = 0 ; k < _tailleSousPlateaux ; k++) {
+                for(int l = 0 ; l < _tailleSousPlateaux ; l++) {
+                    _plateau.setCouleur(i, j, k, l, etat.getCouleurCase(i, j, k, l));
+                }
+            }
+        }
+    }
+    _nbPions = etat.getNbPionsPoses();
+    _longueurLigne = etat.getLongueurLigne();
+    _derniereRotation = etat.getDerniereRotation();
+    _dernierPlacement = etat.getDernierPlacement();
+    _prochainMouvement = etat.getProchainMouvement();
+    list<Joueur *> joueurs = etat.getJoueurs();
+    for(list<Joueur *>::iterator it = joueurs.begin() ; it != joueurs.end() ; it++){
+        ajoutJoueur(*it, etat.getCouleurJoueur(*it));
+    }
+}
+
 EtatReel::~EtatReel() {}
 
 void EtatReel::setCouleur(int plateauX, int plateauY, int sousPlateauX, int sousPlateauY, Couleur couleur)
 {
-        Couleur couleurCase = _plateau.getCouleur(plateauX,plateauY,sousPlateauX,sousPlateauY);
-        if(couleurCase == Vide && couleur != Vide)
-                _nbPions++;
-        else if(couleurCase != Blanc && couleur == Blanc)
-                _nbPions--;
+    Couleur couleurCase = _plateau.getCouleur(plateauX,plateauY,sousPlateauX,sousPlateauY);
+    if(couleurCase == Vide && couleur != Vide)
+            _nbPions++;
+    else if(couleurCase != Blanc && couleur == Blanc)
+            _nbPions--;
     _plateau.setCouleur(plateauX,plateauY,sousPlateauX,sousPlateauY,couleur);
-	_dernierPlacement.plateauX = plateauX;
-	_dernierPlacement.plateauY = plateauY;
-	_dernierPlacement.sousPlateauX = sousPlateauX;
-	_dernierPlacement.sousPlateauY = sousPlateauY;
-	_dernierPlacement.couleur = couleur;
+    _dernierPlacement.plateauX = plateauX;
+    _dernierPlacement.plateauY = plateauY;
+    _dernierPlacement.sousPlateauX = sousPlateauX;
+    _dernierPlacement.sousPlateauY = sousPlateauY;
+    _dernierPlacement.couleur = couleur;
 }
 
 void EtatReel::tourner(int plateauX, int plateauY, SousPlateau::Sens sens)
@@ -96,7 +121,7 @@ Couleur EtatReel::verifierVictoire()
         int compte = 0;
         if(encours != Vide)
             compte = 1;
-        for(int y = 1 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
+        for(int x = 1 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
             nouvelle = _plateau.getCouleur(x/_tailleSousPlateaux,y/_tailleSousPlateaux,x%_tailleSousPlateaux,y%_tailleSousPlateaux);
             if(nouvelle == encours && nouvelle != Vide) {
                 compte++;
@@ -119,7 +144,7 @@ Couleur EtatReel::verifierVictoire()
         int compte = 0;
         if(encours != Vide)
             compte = 1;
-        for(int x = 1 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
+        for(int y = 1 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
             nouvelle = _plateau.getCouleur(x/_tailleSousPlateaux,y/_tailleSousPlateaux,x%_tailleSousPlateaux,y%_tailleSousPlateaux);
             if(nouvelle == encours && nouvelle != Vide) {
                 compte++;
@@ -224,8 +249,6 @@ Couleur EtatReel::verifierVictoire()
         }
     }
 
-    // pas de victoire
-    return Invalide;
 }
 
 Joueur * EtatReel::getJoueurVictorieux()
@@ -252,7 +275,7 @@ void EtatReel::ajoutJoueur(Joueur * joueur, Couleur couleur)
 {
     _joueurs.push_back(joueur);
     _couleurs[joueur] = couleur;
-    if(_joueurs.size() == 1) // premier joueur ajouté
+    if(_joueurs.size() == 1) // premier joueur ajout
         _joueurCourant = joueur;
 }
 
@@ -297,10 +320,15 @@ int EtatReel::getTailleSousPlateau()
 
 int EtatReel::getLongueurLigne()
 {
-        return _longueurLigne;
+    return _longueurLigne;
 }
 
 int EtatReel::getNbPionsPoses()
 {
-        return _nbPions;
+    return _nbPions;
+}
+
+list<Joueur *> EtatReel::getJoueurs()
+{
+    return _joueurs;
 }

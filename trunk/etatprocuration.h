@@ -25,6 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "etat.h"
 #include "etatreel.h"
 
+#include <list>
+
+using std::list;
+
 class EtatProcuration : public Etat
 {
 public:
@@ -40,8 +44,11 @@ public:
     Placement getDernierPlacement();
     int getTaillePlateau();
     int getTailleSousPlateau();
-	int getLongueurLigne();
-	int getNbPionsPoses();
+    int getLongueurLigne();
+    int getNbPionsPoses();
+
+ protected:
+    list<Joueur *> getJoueurs();
 
 private:
     EtatReel * _etat;
