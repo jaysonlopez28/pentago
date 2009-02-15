@@ -39,11 +39,16 @@ EtatReel::EtatReel(int taillePlateau, int tailleSousPlateaux, int longueurLigne)
                 _longueurLigne = _taillePlateau * _tailleSousPlateaux - 1;
 }
 
-EtatReel::EtatReel(Etat & etat) : _plateau(2,3)
+EtatReel::EtatReel(Etat & etat) :
+        _plateau(etat.getTaillePlateau(),etat.getTailleSousPlateau()),
+        _taillePlateau(etat.getTaillePlateau()),
+        _tailleSousPlateaux(etat.getTailleSousPlateau()),
+        _longueurLigne(etat.getLongueurLigne()),
+        _nbPions(etat.getNbPionsPoses()),
+        _prochainMouvement(etat.getProchainMouvement()),
+        _derniereRotation(etat.getDerniereRotation()),
+        _dernierPlacement(etat.getDernierPlacement())
 {
-    _taillePlateau = etat.getTaillePlateau();
-    _tailleSousPlateaux = etat.getTailleSousPlateau();
-    _plateau = Plateau(_taillePlateau, _tailleSousPlateaux);
     for(int i = 0 ; i < _taillePlateau ; i++) {
         for(int j = 0 ; j < _taillePlateau ; j++) {
             for(int k = 0 ; k < _tailleSousPlateaux ; k++) {
@@ -53,11 +58,6 @@ EtatReel::EtatReel(Etat & etat) : _plateau(2,3)
             }
         }
     }
-    _nbPions = etat.getNbPionsPoses();
-    _longueurLigne = etat.getLongueurLigne();
-    _derniereRotation = etat.getDerniereRotation();
-    _dernierPlacement = etat.getDernierPlacement();
-    _prochainMouvement = etat.getProchainMouvement();
     list<Joueur *> joueurs = etat.getJoueurs();
     for(list<Joueur *>::iterator it = joueurs.begin() ; it != joueurs.end() ; it++){
         ajoutJoueur(*it, etat.getCouleurJoueur(*it));
@@ -71,7 +71,7 @@ void EtatReel::setCouleur(int plateauX, int plateauY, int sousPlateauX, int sous
     Couleur couleurCase = _plateau.getCouleur(plateauX,plateauY,sousPlateauX,sousPlateauY);
     if(couleurCase == Vide && couleur != Vide)
             _nbPions++;
-    else if(couleurCase != Blanc && couleur == Blanc)
+    else if(couleurCase != Vide && couleur == Vide)
             _nbPions--;
     _plateau.setCouleur(plateauX,plateauY,sousPlateauX,sousPlateauY,couleur);
     _dernierPlacement.plateauX = plateauX;
@@ -121,7 +121,7 @@ Couleur EtatReel::verifierVictoire()
         int compte = 0;
         if(encours != Vide)
             compte = 1;
-        for(int x = 1 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
+        for(int y = 1 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
             nouvelle = _plateau.getCouleur(x/_tailleSousPlateaux,y/_tailleSousPlateaux,x%_tailleSousPlateaux,y%_tailleSousPlateaux);
             if(nouvelle == encours && nouvelle != Vide) {
                 compte++;
@@ -144,7 +144,7 @@ Couleur EtatReel::verifierVictoire()
         int compte = 0;
         if(encours != Vide)
             compte = 1;
-        for(int y = 1 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
+        for(int x = 1 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
             nouvelle = _plateau.getCouleur(x/_tailleSousPlateaux,y/_tailleSousPlateaux,x%_tailleSousPlateaux,y%_tailleSousPlateaux);
             if(nouvelle == encours && nouvelle != Vide) {
                 compte++;
@@ -160,8 +160,8 @@ Couleur EtatReel::verifierVictoire()
         }
     }
 
-        // recherche diagonale haut gauche vers bas droite
-        for(int x = 0 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
+    // recherche diagonale haut gauche vers bas droite
+    for(int x = 0 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
         Couleur encours = _plateau.getCouleur(x/_tailleSousPlateaux,0,x%_tailleSousPlateaux,0);
         Couleur nouvelle;
         int compte = 0;
@@ -183,8 +183,8 @@ Couleur EtatReel::verifierVictoire()
         }
     }
 
-        for(int y = 0 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
-        Couleur encours = _plateau.getCouleur(0,y/_tailleSousPlateaux,0,y%_tailleSousPlateaux);
+    for(int y = 0 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
+    Couleur encours = _plateau.getCouleur(0,y/_tailleSousPlateaux,0,y%_tailleSousPlateaux);
         Couleur nouvelle;
         int compte = 0;
         if(encours != Vide)
@@ -205,8 +205,8 @@ Couleur EtatReel::verifierVictoire()
         }
     }
 
-        // recherche diagonale bas gauche vers haut droite
-        for(int x = 0 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
+    // recherche diagonale bas gauche vers haut droite
+    for(int x = 0 ; x < _taillePlateau * _tailleSousPlateaux ; x++) {
         Couleur encours = _plateau.getCouleur(x/_tailleSousPlateaux,_taillePlateau-1,x%_tailleSousPlateaux,_tailleSousPlateaux-1);
         Couleur nouvelle;
         int compte = 0;
@@ -227,8 +227,8 @@ Couleur EtatReel::verifierVictoire()
             }
         }
     }
-        for(int y = 0 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
-        Couleur encours = _plateau.getCouleur(0,y/_tailleSousPlateaux,0,y%_tailleSousPlateaux);
+    for(int y = 0 ; y < _taillePlateau * _tailleSousPlateaux ; y++) {
+    Couleur encours = _plateau.getCouleur(0,y/_tailleSousPlateaux,0,y%_tailleSousPlateaux);
         Couleur nouvelle;
         int compte = 0;
         if(encours != Vide)
@@ -249,6 +249,8 @@ Couleur EtatReel::verifierVictoire()
         }
     }
 
+    // pas de victoire
+    return Invalide;
 }
 
 Joueur * EtatReel::getJoueurVictorieux()
