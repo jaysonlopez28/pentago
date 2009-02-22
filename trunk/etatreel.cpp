@@ -334,3 +334,6 @@ list<Joueur *> EtatReel::getJoueurs()
 {
     return _joueurs;
 }
+void EtatReel::removePlayers(){
+    _joueurs.clear();
+}

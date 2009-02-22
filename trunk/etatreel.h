@@ -64,8 +64,7 @@ public:
     int getNbPionsPoses();
 
     friend class EtatProcuration;
-
-protected:
+    void removePlayers();
     list<Joueur *> getJoueurs();
 
 private:

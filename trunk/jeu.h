@@ -38,6 +38,7 @@ class Jeu
 {
 public:
     Jeu(int taillePlateau, int tailleSousPlateaux, int longueurLigne, vector<Joueur*> joueurs);
+    Jeu(EtatReel etat);
     ~Jeu();
 
     void attacheIHM(IHM * ihm);

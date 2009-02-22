@@ -1,12 +1,13 @@
 #ifndef IASTATISTIQUE_H
 #define IASTATISTIQUE_H
 #include <list>
+#include <math.h>
 #include <iostream>
 #include "joueur.h"
 #include "iarandom.h"
 #include "jeu.h"
 
-#define N 1
+#define N 1000
 /*
 struct Rotation
     {
