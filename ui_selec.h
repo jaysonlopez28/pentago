@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'selec.ui'
 **
-** Created: Fri 6. Feb 04:17:24 2009
+** Created: Sun 15. Feb 15:45:23 2009
 **      by: Qt User Interface Compiler version 4.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -85,7 +85,7 @@ public:
     ll->setObjectName(QString::fromUtf8("ll"));
     ll->setMinimum(2);
     ll->setMaximum(42);
-    ll->setValue(6);
+    ll->setValue(5);
 
     formLayout->setWidget(2, QFormLayout::FieldRole, ll);
 

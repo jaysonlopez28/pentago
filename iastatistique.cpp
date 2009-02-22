@@ -66,20 +66,26 @@ Coup IAStatistique::chercheMeilleureCoup(int nbCoupAvance,Couleur coulCourante){
         }
     }
     list<std::pair<Coup,int> > valeur;
-    // 2 : on appel chercheRecurrent sur chaques plateaux mit a jour avec un coup de la liste à chaque fois
+    // 2 : on appplateaux mit a jour avec un coup de la liste à chaque fois
     for(int j = 0 ; j < coupsPossibles.size() ; j++){
     //for(int j = 0 ; j < 2 ; j++){
         Coup cc = coupsPossibles.front();
         coupsPossibles.pop_front();
         etat.setCouleur(cc.coup.plateauX,cc.coup.plateauY,cc.coup.sousPlateauX,cc.coup.sousPlateauY,cc.coup.couleur);
+        etat.tourner(cc.rotation.x,cc.rotation.y,cc.rotation.sens);
         valeur.push_back(std::pair<Coup,int>(cc,chercheReccurent(nbCoupAvance,(Couleur)((coulCourante%2)+1),etat)));
+        etat.tourner(cc.rotation.x,cc.rotation.y,(SousPlateau::Sens)((cc.rotation.sens+1)%2));
         etat.setCouleur(cc.coup.plateauX,cc.coup.plateauY,cc.coup.sousPlateauX,cc.coup.sousPlateauY,Vide);
     }
     int max = -9000;
     // 3 : on parcours valeur pour savoir quel coup a le meilleur score, et on le retourne.
     //for(list<std::pair<Coup,int>>::iterator it = valeur.begin() ; it != valeur.end() ; it++)
     for(list<std::pair<Coup,int> >::iterator it = valeur.begin() ; it != valeur.end() ; it++ ){
-        if(it->second>max)final = it->first;
+        if(it->second>=max){
+            final = it->first;
+            max=it->second;
+            std::cout<<"max : "<<max<<std::endl;
+        }
     }
     return final;
 
@@ -102,14 +108,6 @@ int IAStatistique::chercheReccurent(int nbCoupAvance,Couleur coulCourante,EtatRe
 }
 
 int IAStatistique::joueAlea(EtatReel etat,Couleur coulCourante){
-    /*ToDo :
-     *Crée une instance de jeu avec l'etat : etat
-     *jouer la partie jusqu'a la fin
-     *Renvoyer :
-        *egalité : 0
-        *victoire de coulCourante : valeur positive
-        *victoire de !coulCourante : valeur negative
-      */
 
      etat.removePlayers();
      IARandom* j1 = new IARandom("IA random1");
@@ -120,20 +118,27 @@ int IAStatistique::joueAlea(EtatReel etat,Couleur coulCourante){
      std::cout<<"IAStatistique : debut partie"<<std::endl;
      //On joue la partie :
      Jeu alea = Jeu(etat);
-     j1->setJeu(&alea);
-     j2->setJeu(&alea);
      alea.jouer();
      std::cout<<"IAStatistique : fin partie"<<std::endl;
      //A la fin de la partie :
-     if(etat.getProchainMouvement() == Etat::Egalite)return 0;
-     if(etat.getProchainMouvement() == Etat::Termine){
-        if(etat.getCouleurJoueur(etat.getJoueurVictorieux())==coulCourante){
-            return 100;
+     int nbcoup=alea.getEtat()->getNbPionsPoses()-etat.getNbPionsPoses();
+     if(alea.getEtat()->getProchainMouvement() == Etat::Egalite)return 0;
+     if(alea.getEtat()->getProchainMouvement() == Etat::Termine){
+        if(alea.getEtat()->getCouleurJoueur(alea.getEtat()->getJoueurVictorieux())==coulCourante){
+            delete j1;
+            delete j2;
+            return (int)(1000.0/(pow((float)nbcoup,5)));
         }
-        else if(etat.getCouleurJoueur(etat.getJoueurVictorieux())!=coulCourante){
-            return -100;
+        else if(alea.getEtat()->getCouleurJoueur(alea.getEtat()->getJoueurVictorieux())!=coulCourante){
+            delete j1;
+            delete j2;
+            return (-1000.0/(pow((float)nbcoup,5)));
         }
-        else return 0;
+        else {
+            delete j1;
+            delete j2;
+            return 0;
+        }
      }
 
 

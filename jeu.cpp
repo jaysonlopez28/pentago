@@ -39,6 +39,15 @@ Jeu::Jeu(int taillePlateau, int tailleSousPlateaux, int longueurLigne, vector<Jo
     }
 }
 
+Jeu::Jeu(EtatReel etat):
+        _etat(etat),
+        _etatProcuration(&_etat), _utiliseIHM(false)
+{
+    list<Joueur*> vec = _etat.getJoueurs();
+    for(list<Joueur*>::iterator it = vec.begin() ; it != vec.end() ; it++) {
+        (*it)->setJeu(this);
+    }
+}
 Jeu::~Jeu() {}
 
 void Jeu::attacheIHM(IHM * ihm)

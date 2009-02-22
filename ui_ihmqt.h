@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'ihmqt.ui'
 **
-** Created: Fri 6. Feb 11:17:20 2009
+** Created: Sun 15. Feb 15:45:23 2009
 **      by: Qt User Interface Compiler version 4.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

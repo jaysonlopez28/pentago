@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     case.cpp \
     qtsousplateau.cpp \
     selec.cpp \
-    iastatistique.cpp
+    iastatistique.cpp \
+    iastatthread.cpp
 HEADERS += ihmqt.h \
     PenCase.h \
     sousplateau.h \
@@ -35,7 +36,8 @@ HEADERS += ihmqt.h \
     ihm.h \
     qtsousplateau.h \
     selec.h \
-    iastatistique.h
+    iastatistique.h \
+    iastatthread.h
 FORMS += ihmqt.ui \
     selec.ui
 RESOURCES += Images.qrc
