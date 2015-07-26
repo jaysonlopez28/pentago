@@ -1,0 +1,1 @@
+Une interface Pentago en Qt et bientôt une IA pour jouer avec.
